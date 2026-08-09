@@ -26,6 +26,7 @@ import { shortcuts } from "@/constants/shortcuts";
 import useActiveWorkspace from "@/hooks/queries/workspace/use-active-workspace";
 import { useRegisterShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { useUserPreferencesStore } from "@/store/user-preferences";
+import QuickCaptureModal from "../quick-capture-modal";
 import CreateProjectModal from "../shared/modals/create-project-modal";
 
 type PaletteActionItem = {
@@ -52,6 +53,7 @@ function CommandPalette() {
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
   const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false);
   const [isCreateWorkspaceOpen, setIsCreateWorkspaceOpen] = useState(false);
+  const [isQuickCaptureOpen, setIsQuickCaptureOpen] = useState(false);
   const projectIdFromRoute =
     location.pathname.match(/\/project\/([^/]+)/)?.[1] ?? undefined;
   const isBacklogView = location.pathname.endsWith("/backlog");
@@ -61,6 +63,7 @@ function CommandPalette() {
       [shortcuts.help.key]: () => {
         document.dispatchEvent(new KeyboardEvent("keydown", { key: "?" }));
       },
+      q: () => setIsQuickCaptureOpen(true),
     },
     modifierShortcuts: {
       [shortcuts.palette.prefix]: {
@@ -102,6 +105,12 @@ function CommandPalette() {
         value: "suggestions",
         label: t("navigation:commandPalette.suggestions"),
         items: [
+          {
+            value: "quick-capture",
+            label: "Quick Brain Dump (Quick Capture)",
+            shortcut: "Q",
+            onRun: () => setIsQuickCaptureOpen(true),
+          },
           {
             value: "projects",
             label: t("navigation:commandPalette.projects"),
@@ -329,6 +338,11 @@ function CommandPalette() {
       <CreateProjectModal
         open={isCreateProjectOpen}
         onClose={() => setIsCreateProjectOpen(false)}
+      />
+      <QuickCaptureModal
+        open={isQuickCaptureOpen}
+        onOpenChange={setIsQuickCaptureOpen}
+        defaultProjectId={projectIdFromRoute}
       />
     </>
   );
