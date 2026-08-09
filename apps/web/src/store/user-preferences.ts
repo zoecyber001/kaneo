@@ -8,12 +8,14 @@ export function isWeekStartDay(value: number): value is WeekStartDay {
   return WEEK_START_DAYS.some((day) => day === value);
 }
 
+export type AppTheme = "light" | "dark" | "system" | "nord" | "sage" | "slate";
+
 type UserPreferencesStore = {
-  theme: "light" | "dark" | "system";
-  setTheme: (
-    theme: "light" | "dark" | "system",
-    coordinates?: { x: number; y: number },
-  ) => void;
+  theme: AppTheme;
+  setTheme: (theme: AppTheme, coordinates?: { x: number; y: number }) => void;
+
+  reducedMotion: boolean;
+  setReducedMotion: (enabled: boolean) => void;
 
   viewMode: "board" | "list";
   setViewMode: (mode: "board" | "list") => void;
@@ -49,10 +51,7 @@ export const useUserPreferencesStore = create<UserPreferencesStore>()(
   persist(
     (set) => ({
       theme: "dark",
-      setTheme: (
-        theme: "light" | "dark" | "system",
-        coordinates?: { x: number; y: number },
-      ) => {
+      setTheme: (theme: AppTheme, coordinates?: { x: number; y: number }) => {
         if (coordinates) {
           document.documentElement.style.setProperty(
             "--x",
@@ -75,6 +74,9 @@ export const useUserPreferencesStore = create<UserPreferencesStore>()(
           set({ theme });
         }
       },
+
+      reducedMotion: false,
+      setReducedMotion: (enabled) => set({ reducedMotion: enabled }),
 
       viewMode: "board",
       setViewMode: (mode) => set({ viewMode: mode }),

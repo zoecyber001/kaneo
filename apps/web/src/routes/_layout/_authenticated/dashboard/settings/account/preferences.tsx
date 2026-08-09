@@ -49,6 +49,8 @@ function RouteComponent() {
   const {
     theme,
     setTheme,
+    reducedMotion,
+    setReducedMotion,
     weekStartsOn,
     setWeekStartsOn,
     viewMode,
@@ -72,6 +74,9 @@ function RouteComponent() {
     light: t("settings:preferencesPage.themeLight"),
     dark: t("settings:preferencesPage.themeDark"),
     system: t("settings:preferencesPage.themeSystem"),
+    nord: "Nord Calm (Low Sensory)",
+    sage: "Sage Soft (Muted Green)",
+    slate: "Slate (Low Contrast)",
   };
 
   const viewLabels: Record<string, string> = {
@@ -138,8 +143,29 @@ function RouteComponent() {
                 <SelectItem value="system">
                   {t("settings:preferencesPage.themeSystem")}
                 </SelectItem>
+                <SelectItem value="nord">Nord Calm (Low Sensory)</SelectItem>
+                <SelectItem value="sage">Sage Soft (Muted Green)</SelectItem>
+                <SelectItem value="slate">Slate (Low Contrast)</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <Separator />
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div className="space-y-0.5">
+              <Label className="text-sm font-medium">
+                Reduced Motion & High Calm
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                Disable non-essential animations and visual movement for lower
+                sensory stimulation.
+              </p>
+            </div>
+            <Switch
+              checked={reducedMotion}
+              onCheckedChange={setReducedMotion}
+            />
           </div>
 
           <Separator />

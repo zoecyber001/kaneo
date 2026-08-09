@@ -63,7 +63,11 @@ export default function TaskContextNote({
       <div className="flex items-center justify-between gap-2 mb-1.5">
         <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground/80">
           <Bookmark className="size-3.5 text-primary/80" />
-          <span>{t("tasks:contextNote.title", { defaultValue: "Where I left off..." })}</span>
+          <span>
+            {t("tasks:contextNote.title", {
+              defaultValue: "Where I left off...",
+            })}
+          </span>
         </div>
         {lastSaved && !isEditing && (
           <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
@@ -84,7 +88,6 @@ export default function TaskContextNote({
             })}
             rows={2}
             className="w-full resize-none rounded-md border border-input bg-transparent px-2.5 py-1.5 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-            autoFocus
           />
           <div className="flex items-center justify-end gap-1.5">
             <Button
@@ -106,9 +109,10 @@ export default function TaskContextNote({
           </div>
         </div>
       ) : (
-        <div
+        <button
+          type="button"
           onClick={() => setIsEditing(true)}
-          className="group cursor-pointer rounded-md border border-dashed border-border/60 p-2 hover:border-primary/50 transition-colors"
+          className="w-full text-left group cursor-pointer rounded-md border border-dashed border-border/60 p-2 hover:border-primary/50 transition-colors"
         >
           {note ? (
             <p className="text-xs text-foreground/90 whitespace-pre-wrap leading-relaxed">
@@ -122,7 +126,7 @@ export default function TaskContextNote({
               })}
             </p>
           )}
-        </div>
+        </button>
       )}
     </div>
   );
