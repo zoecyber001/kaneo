@@ -13,6 +13,7 @@ import useGetProject from "@/hooks/queries/project/use-get-project";
 import useGetTask from "@/hooks/queries/task/use-get-task";
 import useGetTaskRelations from "@/hooks/queries/task-relation/use-get-task-relations";
 import type { ExternalLink } from "@/types/external-link";
+import TaskContextNote from "./task-context-note";
 import TaskDescription from "./task-description";
 import TaskRelations from "./task-relations";
 import TaskSubtasks from "./task-subtasks";
@@ -77,6 +78,7 @@ export default function TaskDetailsContent({
           {project?.slug}-{task?.number}
         </p>
         <TaskTitle taskId={taskId} />
+        <TaskContextNote taskId={taskId} className="my-1" />
         <TaskDescription taskId={taskId} />
       </div>
       {!isLoadingExternalLinks && externalLinks.length > 0 && (
