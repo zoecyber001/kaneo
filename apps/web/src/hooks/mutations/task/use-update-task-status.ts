@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import updateTaskStatus from "@/fetchers/task/update-task-status";
+import { triggerTaskCompletionCelebration } from "@/lib/celebration";
 import type Task from "@/types/task";
 
 export function useUpdateTaskStatus() {
@@ -8,6 +9,9 @@ export function useUpdateTaskStatus() {
   return useMutation({
     mutationFn: (task: Task) => updateTaskStatus(task.id, task),
     onSuccess: (_, variables) => {
+      if (variables.status === "done" || variables.status === "archived") {
+        triggerTaskCompletionCelebration(variables.title);
+      }
       queryClient.invalidateQueries({
         queryKey: ["task", variables.id],
       });
