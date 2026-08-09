@@ -20,9 +20,13 @@ import useInstanceStatus from "@/hooks/queries/instance/use-instance-status";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "@/lib/toast";
 
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as
+const rawTurnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as
   | string
   | undefined;
+const TURNSTILE_SITE_KEY =
+  rawTurnstileSiteKey && !rawTurnstileSiteKey.startsWith("KANEO_")
+    ? rawTurnstileSiteKey
+    : undefined;
 
 const signUpSearchSchema = z.object({
   invitationId: z.string().optional(),

@@ -23,9 +23,13 @@ import { SignInFormSkeleton } from "../../components/auth/sign-in-form-skeleton"
 import { AuthToggle } from "../../components/auth/toggle";
 import { Turnstile } from "../../components/auth/turnstile";
 
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as
+const rawTurnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as
   | string
   | undefined;
+const TURNSTILE_SITE_KEY =
+  rawTurnstileSiteKey && !rawTurnstileSiteKey.startsWith("KANEO_")
+    ? rawTurnstileSiteKey
+    : undefined;
 
 const signInSearchSchema = z.object({
   invitationId: z.string().optional(),
