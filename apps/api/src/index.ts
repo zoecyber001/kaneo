@@ -171,7 +171,7 @@ export function createApp() {
   ].find((value) => value?.trim());
   const corsOrigins = corsOriginSource
     ?.split(",")
-    .map((origin) => origin.trim())
+    .map((origin) => origin.trim().replace(/\/+$/, ""))
     .filter(Boolean);
 
   const reflectUnconfiguredOrigins = process.env.NODE_ENV !== "production";
@@ -187,8 +187,6 @@ export function createApp() {
     cors({
       credentials: true,
       origin: (origin) => {
-        // Reflecting an arbitrary origin alongside credentials lets any site
-        // read authenticated responses, so it stays a development convenience.
         if (!corsOrigins) {
           return reflectUnconfiguredOrigins ? origin || "*" : null;
         }
@@ -197,7 +195,8 @@ export function createApp() {
           return null;
         }
 
-        return corsOrigins.includes(origin) ? origin : null;
+        const normalizedOrigin = origin.replace(/\/+$/, "");
+        return corsOrigins.includes(normalizedOrigin) ? origin : null;
       },
     }),
   );
